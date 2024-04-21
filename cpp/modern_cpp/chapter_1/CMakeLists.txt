@@ -7,3 +7,4 @@ aux_source_directory(${PROJECT_SOURCE_DIR} SOURCES)
 add_executable(chapter1 ${SOURCES})
 
 target_link_libraries(chapter1 PUBLIC pthread)
+
