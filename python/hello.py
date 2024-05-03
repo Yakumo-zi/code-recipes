@@ -1,1 +1,2 @@
-print("hello world")
+from pathlib import Path
+print(Path.cwd())

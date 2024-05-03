@@ -7,10 +7,4 @@ function sendResponse($statusCode, $data) {
 $request=$_SERVER['REQUEST_METHOD'];
 
 sendResponse(200,$_SERVER)
-// echo $request;
-// foreach($_SERVER as$key=> $value){
-//   echo '<p>';
-//   echo $key.':'.$value;
-//   echo '</p>';
-// }
 ?>
