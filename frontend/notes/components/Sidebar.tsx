@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 
 const Sidebar: React.FC = async () => {
+
   return (
     <section className="h-screen w-1/5 bg-white items-center shadow-xl select-none">
       <Link href={"/"}>
