@@ -1,4 +1,4 @@
-import SidebarItem from "@/components/SidebarItem";
+import NoteListFilter from "@/components/NoteListFilter";
 import { getAllNotes } from "@/lib/redis";
 
 const SidebarNoteList: React.FC = async () => {
@@ -11,16 +11,7 @@ const SidebarNoteList: React.FC = async () => {
     );
   }
   return (
-    <ul className="flex flex-col gap-4 justify-center items-center px-2 pt-2">
-      {notes.map((note) => {
-        const uuid = Object.keys(note)[0];
-        return (
-          <li key={uuid} className="w-full">
-            <SidebarItem noteID={uuid} note={note[uuid]} />
-          </li>
-        );
-      })}
-    </ul>
+    <NoteListFilter notes={notes} />
   );
 };
 

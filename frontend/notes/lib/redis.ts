@@ -3,9 +3,9 @@ import Redis from "ioredis";
 const redis = new Redis(16379);
 
 export type Note = {
-  title: String;
-  content: String;
-  updateTime: String;
+  title: string;
+  content: string;
+  updateTime: string;
 };
 
 const initialData = {
@@ -34,18 +34,17 @@ export async function getAllNotes(): Promise<Array<Record<string, Note>>> {
 
 export async function addNote(data: Note) {
   const uuid = Date.now().toString();
-  await redis.hset("notes", { [uuid]: data });
+  await redis.hset("notes", uuid, JSON.stringify(data));
   return uuid;
 }
 export async function updateNote(uuid: string, data: Note) {
-  await redis.hset("notes", { [uuid]: data });
+  await redis.hset("notes", uuid, JSON.stringify(data));
 }
 
 export async function getNote(uuid: string) {
   let data = JSON.parse((await redis.hget("notes", uuid)) as string) as Note;
-  return {
-    [uuid]: data,
-  };
+  return data
+
 }
 
 export async function delNote(uuid: string) {

@@ -13,7 +13,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   }
   return (
     <div className="w-full h-full bg-white rounded-xl p-5">
-      <Note noteID={noteID} note={note[noteID]} />
+      <Note noteID={noteID} note={note} />
     </div>
   );
 }

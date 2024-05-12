@@ -1,6 +1,7 @@
 import EditButton from "@/components/EditButton";
 import NoteListSkeleton from "@/components/NoteListSkeleton";
 import SearchBar from "@/components/SearchBar";
+import SidebarImport from "@/components/SidebarImport";
 import SidebarNoteList from "@/components/SidebarNoteList";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -26,6 +27,7 @@ const Sidebar: React.FC = async () => {
           <SidebarNoteList />
         </Suspense>
       </nav>
+      <SidebarImport />
     </section>
   );
 };
