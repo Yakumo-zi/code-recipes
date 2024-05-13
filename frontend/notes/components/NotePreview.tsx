@@ -16,7 +16,7 @@ const allowedAttributes = Object.assign(
 );
 const NotePreview: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (
-    <div>
+    <div className="h-[85%] overflow-scroll no-scrollbar">
       <div
         dangerouslySetInnerHTML={{
           __html: sanitize(marked(children || ""), {

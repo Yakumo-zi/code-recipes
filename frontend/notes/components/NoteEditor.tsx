@@ -2,7 +2,7 @@
 
 import { deleteNote, saveNote } from "@/app/actions"
 import NotePreview from "@/components/NotePreview"
-import { ChangeEvent, useState } from "react"
+import { ChangeEvent, useMemo, useState } from "react"
 
 type Props = {
   noteID: string,
@@ -19,6 +19,7 @@ const NoteEditor: React.FC<Props> = (props) => {
   const onContentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value)
   }
+  const component = useMemo(() => <NotePreview>{content}</NotePreview>, [content])
   return (
     <div className="w-full h-full flex items-center justify-center flex-col p-6 bg-white gap-6">
       <div className="w-full h-12 flex gap-6">
@@ -36,17 +37,17 @@ const NoteEditor: React.FC<Props> = (props) => {
           }
         </form>
       </div>
-      <div className="w-full h-full flex gap-6">
-        <textarea className="h-full flex-1 border-[2px] rounded-md p-2" value={content} onChange={onContentChange} />
+      <div className="w-full h-[90%] flex gap-6">
+        <textarea className="h-full flex-1 border-[2px] rounded-md p-2 no-scrollbar" value={content} onChange={onContentChange} />
         <div className="h-full flex-1 flex flex-col gap-6">
           <div className="h-12 w-32 rounded-3xl bg-sky-500 text-white font-bold flex items-center justify-center select-none">
             PREVIEW
           </div>
-          <div>
-            <h1 className="text-[40px] font-bold">{title}</h1>
-            <NotePreview >
-              {content}
-            </NotePreview>
+          <div className="flex-1 overflow-scroll flex flex-col gap-2 no-scrollbar">
+            <h1 className="text-[40px] font-bold h-16">{title}</h1>
+            {
+              component
+            }
           </div>
         </div>
       </div>
