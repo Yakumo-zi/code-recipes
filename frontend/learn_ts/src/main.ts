@@ -1,11 +1,3 @@
-type Person={
-  name:String,
-  age:Number,
-}
+import { test } from "./FilterProperty";
 
-let person:Person={
-  name:"Jack",
-  age:18,
-}
-
-console.log(person)
+test()
