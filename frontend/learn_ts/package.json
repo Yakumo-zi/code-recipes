@@ -2,10 +2,14 @@
   "name": "learn_ts",
   "type": "module",
   "scripts": {
-    "dev": "vite-node src/main.ts"
+    "dev": "vite-node src/main.ts",
+    "test":"vitest"
   },
   "dependencies": {
     "typescript": "^5.4.5",
     "vite-node": "^1.5.0"
+  },
+  "devDependencies": {
+    "vitest": "^1.6.0"
   }
 }
