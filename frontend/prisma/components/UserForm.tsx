@@ -1,6 +1,7 @@
 'use client'
 
 import { addUser } from "@/app/actions"
+import { Button } from "@/components/ui/button"
 import { useState } from "react"
 
 export default function UserForm() {
@@ -15,6 +16,6 @@ export default function UserForm() {
       <label htmlFor="email">email:</label>
       <input type="text" id="email" name="email" onChange={e => setEmail(e.target.value)} value={email} />
     </div>
-    <button formAction={() => addUser(username, email)}>add</button>
+    <Button formAction={() => addUser(username, email)}>add</Button>
   </form>
 }

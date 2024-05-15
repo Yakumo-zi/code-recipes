@@ -1,5 +1,10 @@
+import "@/app/globals.css";
+import { Inter as FontSans } from 'next/font/google';
 
-
+const fontSans = FontSans({
+  subsets: ['latin'],
+  variable: "--font-sans"
+})
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -7,7 +12,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body >{children}</body>
+      <body className={fontSans.variable} >{children}</body>
     </html>
   );
 }
