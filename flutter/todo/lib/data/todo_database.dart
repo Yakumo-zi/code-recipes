@@ -1,38 +1,53 @@
-import 'package:todo/model/todo.dart';
+import 'package:isar/isar.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:todo/model/todo_item.dart';
 
 class TodoDatabase {
-  final _todos = <Todo>[
-    Todo(
-        id: 1,
-        name: 'Buy Milk',
-        date: DateTime.now(),
-        decription: 'Buy 2 liters of milk',
-        isDone: false),
-    Todo(
-        id: 2,
-        name: 'Buy Bread',
-        date: DateTime.now(),
-        decription: 'Buy 2 loaves of bread',
-        isDone: false),
-    Todo(
-        id: 3,
-        name: 'Buy Eggs',
-        date: DateTime.now(),
-        decription: 'Buy 1 dozen eggs',
-        isDone: false),
-  ];
-
-  List<Todo> get todos => _todos;
-  void add(Todo todo) {
-    _todos.add(todo);
+  static Isar? isar;
+  void mock() {
+    for (int i = 0; i < 10; i++) {
+      isar!.writeTxnSync(() {
+        isar!.todoItems.putSync(TodoItem(
+            name: 'name $i',
+            id: i,
+            date: DateTime.now(),
+            isDone: false,
+            decription: 'description $i'));
+      });
+    }
   }
 
-  void remove(int id) {
-    _todos.removeWhere((element) => element.id == id);
+  Future<void> initTodoDatabase() async {
+    if (isar != null) {
+      return;
+    }
+    final dir = await getApplicationDocumentsDirectory();
+    isar = await Isar.open([TodoItemSchema], directory: dir.path);
   }
 
-  void update(Todo todo) {
-    var index = _todos.indexWhere((element) => element.id == todo.id);
-    _todos[index] = todo;
+  void insertTodo(TodoItem todo) {
+    isar!.writeTxnSync(() {
+      isar!.todoItems.putSync(todo);
+    });
+  }
+
+  void deleteTodoById(int id) {
+    isar!.writeTxnSync(() {
+      isar!.todoItems.deleteSync(id);
+    });
+  }
+
+  void updateTodo(TodoItem todo) {
+    isar!.writeTxnSync(() {
+      isar!.todoItems.putSync(todo);
+    });
+  }
+
+  List<TodoItem> getAlltodoItems() {
+    return isar!.todoItems.where().findAllSync();
+  }
+
+  TodoItem? getTodoById(int id) {
+    return isar!.todoItems.getSync(id);
   }
 }

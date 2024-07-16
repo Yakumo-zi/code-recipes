@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todo/components/todo_tile.dart';
 import 'package:todo/data/todo_database.dart';
+import 'package:todo/model/todo_item.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -10,21 +11,27 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final TodoDatabase db = TodoDatabase();
-  onCheckboxChanged(bool? value, index) {
+  TodoDatabase db = TodoDatabase();
+  List<TodoItem> todos = [];
+
+  onCheckboxChanged(bool? value, TodoItem todo) {
     setState(() {
-      db.todos[index].isDone = value!;
+      todo.isDone = value!;
+      db.updateTodo(todo);
     });
   }
 
-  void deleteTodo(index) {
+  void deleteTodo(int id) {
     setState(() {
-      db.todos.removeAt(index);
+      db.deleteTodoById(id);
     });
   }
 
-  void gotoEditPage(index) {
-    Navigator.pushNamed(context, '/edit', arguments: index);
+  void gotoEditPage(int id) async {
+    await Navigator.pushNamed(context, '/edit', arguments: id);
+    setState(() {
+      todos = db.getAlltodoItems();
+    });
   }
 
   @override
@@ -40,30 +47,41 @@ class _HomePageState extends State<HomePage> {
         title: const Text('Home Page'),
         elevation: 2,
       ),
-      body: Container(
-        padding: const EdgeInsets.all(5),
-        color: Colors.yellow[100],
-        child: ListView.builder(
-          itemCount: db.todos.length,
-          itemBuilder: (context, index) {
-            var todo = db.todos[index];
-            return Column(
-              children: [
-                Todotile(
-                    name: todo.name,
-                    isDone: todo.isDone,
-                    onChange: (value) => onCheckboxChanged(value, index),
-                    deleteTodo: () => deleteTodo(index),
-                    editTodo: () => gotoEditPage(index),
-                    date: todo.date),
-                const SizedBox(
-                  height: 10,
-                ),
-              ],
-            );
-          },
-        ),
-      ),
+      body: FutureBuilder(future: () async {
+        await db.initTodoDatabase();
+        todos = db.getAlltodoItems();
+        if (todos.isEmpty) {
+          db.mock();
+          todos = db.getAlltodoItems();
+        }
+        return todos;
+      }(), builder: (context, snapshot) {
+        return Container(
+          padding: const EdgeInsets.all(5),
+          color: Colors.yellow[100],
+          child: ListView.builder(
+            itemCount: todos.length,
+            itemBuilder: (context, index) {
+              var todo = todos[index];
+              return Column(
+                children: [
+                  Todotile(
+                      name: todo.name,
+                      isDone: todo.isDone,
+                      onChange: (value) =>
+                          onCheckboxChanged(value, todos[index]),
+                      deleteTodo: () => deleteTodo(todos[index].id),
+                      editTodo: () => gotoEditPage(todos[index].id),
+                      date: todo.date),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                ],
+              );
+            },
+          ),
+        );
+      }),
     );
   }
 }

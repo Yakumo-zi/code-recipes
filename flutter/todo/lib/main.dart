@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/home': (context) => const HomePage(),
         '/edit': (context) =>
-            EditPage(index: ModalRoute.of(context)!.settings.arguments as int),
+            EditPage(id: ModalRoute.of(context)!.settings.arguments as int),
       },
     );
   }

@@ -1,11 +1,14 @@
-class Todo {
-  final int id;
+import 'package:isar/isar.dart';
+part 'todo_item.g.dart';
+@Collection()
+class TodoItem {
+  Id id = Isar.autoIncrement;
   String name;
   DateTime date;
   String decription;
   bool isDone;
 
-  Todo(
+  TodoItem(
       {required this.name,
       required this.id,
       required this.date,
