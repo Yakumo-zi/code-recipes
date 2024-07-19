@@ -1,9 +1,13 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 func main() {
 	s := "Hello World!"
+	s = strings.TrimSpace(s)
 	s = reverse([]byte(s), 0, len(s)-1)
 	fmt.Println(s)
 }
