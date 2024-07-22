@@ -1,0 +1,20 @@
+#!/home/tohsaka/.version-fox/temp/1721577600-1071/python/bin/python
+import subprocess
+import sys
+CMAKE_FLAGS = "-DCMAKE_EXPORT_COMPILE_COMMANDS=1 -B ./build"
+
+
+def run_cmake():
+    subprocess.run(f"cmake {CMAKE_FLAGS}", shell=True)
+    subprocess.run("make", cwd="./build", shell=True)
+
+
+def run_name(name: str):
+    subprocess.run(f"./{name}", cwd="./build", shell=True)
+
+
+if __name__ == "__main__":
+    if len(sys.argv) > 1:
+        run_name(sys.argv[1])
+    else:
+        run_cmake()
