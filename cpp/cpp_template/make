@@ -1,4 +1,4 @@
-#!/home/tohsaka/.version-fox/temp/1721577600-1071/python/bin/python
+#!/home/tohsaka/.version-fox/temp/1721664000-3520/python/bin/python
 import subprocess
 import sys
 CMAKE_FLAGS = "-DCMAKE_EXPORT_COMPILE_COMMANDS=1 -B ./build"
